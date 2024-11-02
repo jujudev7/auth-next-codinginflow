@@ -17,13 +17,16 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { updateProfile } from "./actions";
 
-export default function SettingsPage() {
+interface SettingsPageProps {
+  user: User;
+}
+
+export default function SettingsPage({ user }: SettingsPageProps) {
   const { toast } = useToast();
 
   const form = useForm<UpdateProfileValues>({
     resolver: zodResolver(updateProfileSchema),
-    // TODO: Add default value from current user
-    defaultValues: { name: "" },
+    defaultValues: { name: user.name || "" },
   });
 
   async function onSubmit(data: UpdateProfileValues) {
