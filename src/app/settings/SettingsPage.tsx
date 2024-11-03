@@ -32,7 +32,7 @@ export default function SettingsPage({ user }: SettingsPageProps) {
   async function onSubmit(data: UpdateProfileValues) {
     try {
       await updateProfile(data);
-      toast({ description: "Profile updated." });
+      toast({ description: "Profile updated ✅" });
     } catch (error) {
       toast({
         variant: "destructive",
