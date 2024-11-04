@@ -6,10 +6,6 @@ interface User {
   name: string | null;
 }
 
-interface UserId {
-  id: string;
-}
-
 export default async function Home() {
   const users = await prisma.user.findMany();
 

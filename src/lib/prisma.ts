@@ -20,7 +20,11 @@ declare global {
   var prismaGlobal: ReturnType<typeof prismaClientSingleton> | undefined;
 }
 
-// Assigne à `globalThis.prismaGlobal` si en développement, pour réutiliser le client
-if (process.env.NODE_ENV !== "production") globalThis.prismaGlobal = prisma;
+// Vérifie si une instance de PrismaClient existe déjà dans l'environnement de développement
+const prisma =
+  process.env.NODE_ENV === "production"
+    ? prismaClientSingleton()
+    : globalThis.prismaGlobal ??
+      (globalThis.prismaGlobal = prismaClientSingleton());
 
 export default prisma;
