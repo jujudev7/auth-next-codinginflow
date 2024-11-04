@@ -1,6 +1,11 @@
 import prisma from "@/lib/prisma";
 import Link from "next/link";
 
+interface User {
+  id: string;
+  name: string | null;
+}
+
 export default async function Home() {
   const users = await prisma.user.findMany();
 
