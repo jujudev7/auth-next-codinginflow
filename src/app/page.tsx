@@ -14,7 +14,7 @@ export default async function Home() {
       <h1 className="text-center text-4xl font-bold">Next-Auth V5 Tutorial</h1>
       <h2 className="text-center text-2xl font-semibold">Users</h2>
       <ul className="list-inside list-disc">
-        {users.map((user) => (
+        {users.map((user: User) => (
           <li key={user.id}>
             <Link href={`/user/${user.id}`} className="hover:underline">
               {user.name || `User ${user.id}`}
