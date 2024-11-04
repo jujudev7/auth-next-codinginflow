@@ -7,6 +7,11 @@ interface PageProps {
   params: { id: string };
 }
 
+interface UserId {
+  id: string;
+}
+
+// Utiliser le cache pour optimiser la récupération des données utilisateur
 const getUser = cache(async (id: string) => {
   return prisma.user.findUnique({
     where: { id },
@@ -15,9 +20,13 @@ const getUser = cache(async (id: string) => {
 });
 
 export async function generateStaticParams() {
-  const allUsers = await prisma.user.findMany();
+  // Récupérer tous les utilisateurs
+  const allUsers = await prisma.user.findMany({
+    select: { id: true },
+  });
 
-  return allUsers.map(({ id }) => ({ id }));
+  // Typage explicite du paramètre `id`
+  return allUsers.map(({ id }: UserId) => ({ id }));
 }
 
 export async function generateMetadata({ params: { id } }: PageProps) {
@@ -29,7 +38,7 @@ export async function generateMetadata({ params: { id } }: PageProps) {
 }
 
 export default async function Page({ params: { id } }: PageProps) {
-  // Artificial delay to showcase static caching
+  // Délai artificiel pour illustrer la mise en cache statique
   await new Promise((resolve) => setTimeout(resolve, 1500));
 
   const user = await getUser(id);
